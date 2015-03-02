@@ -1,5 +1,5 @@
-#ifndef ABSTRACTVM
-# define ABSTRACTVM
+#ifndef AVM
+# define AVM
 
 class BasicException: public std::exception {};
 
