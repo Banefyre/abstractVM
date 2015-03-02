@@ -1,39 +1,72 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: msagodir <msagodir@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/01/06 10:13:32 by msagodir          #+#    #+#              #
-#    Updated: 2015/02/25 16:20:56 by msagodir         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+SHELL = bash
+UNAME = $(shell uname -s)
+CC = g++
+CFLAGS = -std=c++11 -Wextra -Wall -Werror  -I./incs
+DEBUG = -g3 -fno-inline -DD_ERRORS_ON
+OBJDIR  = .objs
+LDFLAGS = ``
+LISTDIR = srcs
+DIRSRC = srcs
+NAME = abstractvm
+SRC = $(wildcard $(DIRSRC)/*.cpp)
+OBJ = $(addprefix $(OBJDIR)/, $(SRC:.cpp=.o))
 
-CC = /usr/local/bin/g++
-CFLAGS = -Wall -Wextra -Werror
-NAME = abstractVM
-SRC = srcs/main.cpp
-PATH_OBJ = .objs
-OBJ = $(addprefix $(PATH_OBJ)/, $(SRC:.cpp=.o))
+.SILENT:
 
-$(addprefix $(PATH_OBJ)/, %.o): %.cpp
+$(addprefix $(OBJDIR)/, %.o): %.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
+ifeq ($(UNAME), Darwin)
+	printf '\033[0;32mBuilding C++ Object $@\n\033[0m' "Building C++ Object $@"
+else
+	echo -e '\033[0;32mBuilding C++ Object $@\n\033[0m' "Building C++ Object $@"
+endif
 
 all: $(NAME)
 
-$(NAME) : $(PATH_OBJ) $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)
+ifeq ($(UNAME), Darwin)
+	printf '\033[1;31m%s \033[1;35m%s \033[1;31m%s \033[1;33m%s\n\033[0m' \
+		"Linking C++ executable" "$(NAME)" "with" "$(CC)"
+else
+	echo -e '\033[1;31m%s \033[1;35m%s \033[1;31m%s \033[1;33m%s\n\033[0m' \
+		"Linking C++ executable" "$(NAME)" "with" "$(CC)"
+endif
 
-$(PATH_OBJ):
-	mkdir $(PATH_OBJ)
+clean:
+	/bin/rm -fr $(OBJDIR)
+ifeq ($(UNAME), Darwin)
+	printf '\033[1;34m%s\n\033[0m' "Clean project $(NAME)"
+else
+	echo -e '\033[1;34m%s\n\033[0m' "Clean project $(NAME)"
+endif
 
-clean :
-	rm -rf $(PATH_OBJ)
+test: CFLAGS = -Wall
+test: re
 
-fclean : clean
-	rm -rf $(NAME)
+debug: CFLAGS += $(DEBUG)
+debug: re
+ifeq ($(UNAME), Darwin)
+	printf '\033[1;31m%s \033[1;35m%s\n\033[0m' "Debug version" "$(DEBUG)"
+else
+	echo -e '\033[1;31m%s \033[1;35m%s\n\033[0m' "Debug version" "$(DEBUG)"
+endif
 
-re : fclean all
+fclean: clean
+	/bin/rm -fr $(NAME)
+ifeq ($(UNAME), Darwin)
+	printf '\033[1;34m%s\n\033[0m' "Fclean project $(NAME)"
+else
+	echo -e '\033[1;34m%s\n\033[0m' "Fclean project $(NAME)"
+endif
 
-.PHONY: re, clean, fclean
+re: fclean all
+
+$(OBJDIR):
+	/bin/mkdir $(OBJDIR);            \
+	for DIR in $(LISTDIR);           \
+	do                               \
+		/bin/mkdir $(OBJDIR)/$$DIR;  \
+	done                             \
+
+.PHONY: clean fclean re
