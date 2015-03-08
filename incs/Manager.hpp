@@ -1,17 +1,20 @@
 #ifndef MANAGER_HPP
 # define MANAGER_HPP
 
+#include <fstream>
+#include <iostream>
+
 class Manager {
 
     public:
 
-        Manager	(char * str);
+        Manager	(std::string str);
         ~Manager (void);
         void execute (void);
 
     private:
 
-        char *					    _filename;
+        std::string				    _filename;
 
         void	                    _getFile(std::ifstream & file);
 

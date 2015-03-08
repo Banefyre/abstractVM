@@ -1,6 +1,8 @@
 #include <iostream>
-#include "../incs/avm.hpp"
-using namespace std;
+
+#include <Avm.hpp>
+#include <Manager.hpp>
+#include <Vm.hpp>
 
 //****************************** Exceptions *****************************************//
 
@@ -21,10 +23,19 @@ void argtest (int ac)
 
 int main(int ac, char **av) {
 
-    (void)av;
+
+    Vm::getInstance().push("int8", "2");
+
+    std::string filename;
+
     try {
         argtest(ac);
-        cout << "Hello, World!" << endl;
+        if (ac > 2)
+          filename.assign(av[1]);
+        else
+           filename.assign("");
+        Manager     m(filename);
+        m.execute();
     }
     catch (ArgException & e) {
         std::cout << "Usage: " << e.what() << std::endl;
