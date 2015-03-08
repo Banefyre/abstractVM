@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 #include <list>
 #include <avm.hpp>
 #include <IOperand.hpp>
@@ -20,13 +21,25 @@ class Vm
         IOperand const * createOperand(eOperandType type, std::string const & value ) const;
 
         void push(std::string type, std::string value);
+        void pop (void);
+        void dump (void);
+        void add(void);
+        void sub(void);
+        void mul(void);
+        void div(void);
+        void mod(void);
+        void print(void);
+        void exit(void);
+        void assert(std::string type, std::string value);
+        int  getLine			(void) const;
+        std::map<std::string, eOperandType > eType;
 
     private:
 
         typedef IOperand const * (Vm::*makeOperand)( std::string const & value) const;
 
         std::list<IOperand const *>		_stack;
-
+        int								_line;
         Vm	(Vm const & ref);
         Vm & operator=(Vm const& ref);
 
