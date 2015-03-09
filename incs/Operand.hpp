@@ -21,14 +21,14 @@ class Operand: public IOperand {
 
             //double ---> numeric limit<T> :: max and ::lowest ----> throw error overflow or underflow
             if (value < std::numeric_limits<T>::lowest() || (type == INT8 && value < -128)) {
-                FAILEXCEPT("Error : underflow", Vm::getInstance().getLine());
+                VMEXCEPT("Error : underflow", Vm::getInstance().getLine());
             }
             else if (value > std::numeric_limits<T>::max() || (type == INT8 && value > 127)) {
-                FAILEXCEPT("Error : overflow", Vm::getInstance().getLine());
+                VMEXCEPT("Error : overflow", Vm::getInstance().getLine());
             }
             // not working with int8_t -> 127 / -128
             else if (ss.fail()) {
-                FAILEXCEPT("Not a valid numeric representation", Vm::getInstance().getLine());
+                VMEXCEPT("Not a valid numeric representation", Vm::getInstance().getLine());
             }
         }
 
@@ -83,7 +83,7 @@ class Operand: public IOperand {
 
             this->_getParams(st, nd, type, rhs);
             if (nd == 0)
-                FAILEXCEPT("Error : division by 0", Vm::getInstance().getLine())
+                VMEXCEPT("Error : division by 0", Vm::getInstance().getLine())
             if (type <= INT32)
                 res << (int) (st / nd);
             else

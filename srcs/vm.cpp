@@ -35,7 +35,7 @@ int Vm::getLine (void) const
 void Vm::pop (void)
 {
     if (this->_stack.size() < 1)
-        FAILEXCEPT("Error : The stack is empty", this->_line);
+        VMEXCEPT("Error : The stack is empty", this->_line);
 
     delete *(this->_stack.begin());
     this->_stack.pop_front();
@@ -57,7 +57,7 @@ void Vm::assert(std::string type, std::string value)
     IOperand const *check = Vm::getInstance().createOperand(this->eType[type], value);
 
     if (top->getType() != check->getType() || top->toString() != check->toString())
-        FAILEXCEPT("Top value doesn't match", this->_line);
+        VMEXCEPT("Top value doesn't match", this->_line);
     delete top;
 
 }
@@ -65,7 +65,7 @@ void Vm::assert(std::string type, std::string value)
 void    Vm::add(void)
 {
     if (this->_stack.size() < 2)
-        FAILEXCEPT("Error : Not enough operands on the stack", this->_line);
+        VMEXCEPT("Error : Not enough operands on the stack", this->_line);
 
     const IOperand *op1 = this->_stack.front();
     this->_stack.pop_front();
@@ -79,7 +79,7 @@ void    Vm::add(void)
 void    Vm::push(std::string type, std::string value)
 {
     if (!this->eType[type])
-        FAILEXCEPT("Error : unknown type", Vm::getInstance().getLine());
+        VMEXCEPT("Error : unknown type", Vm::getInstance().getLine());
 
     this->_stack.push_front(this->createOperand(eType[type], value));
 }
@@ -87,7 +87,7 @@ void    Vm::push(std::string type, std::string value)
 void    Vm::sub(void)
 {
     if (this->_stack.size() < 2)
-        FAILEXCEPT("Error : Not enough operands on the stack", this->_line);
+        VMEXCEPT("Error : Not enough operands on the stack", this->_line);
 
     IOperand const *op1 = this->_stack.front();
     this->_stack.pop_front();
@@ -101,7 +101,7 @@ void    Vm::sub(void)
 void Vm::mul (void)
 {
     if (this->_stack.size() < 2)
-        FAILEXCEPT("Error : Not enough operands on the stack", this->_line);
+        VMEXCEPT("Error : Not enough operands on the stack", this->_line);
 
     IOperand const *op1 = this->_stack.front();
     this->_stack.pop_front();
@@ -115,7 +115,7 @@ void Vm::mul (void)
 void Vm::div (void)
 {
     if (this->_stack.size() < 2)
-        FAILEXCEPT("Error : Not enough operands on the stack", this->_line);
+        VMEXCEPT("Error : Not enough operands on the stack", this->_line);
 
     IOperand const *op1 = this->_stack.front();
     this->_stack.pop_front();
@@ -129,7 +129,7 @@ void Vm::div (void)
 void Vm::mod (void)
 {
     if (this->_stack.size() < 2)
-        FAILEXCEPT("Error : Not enough operands on the stack", this->_line);
+        VMEXCEPT("Error : Not enough operands on the stack", this->_line);
 
     IOperand const *op1 = this->_stack.front();
     this->_stack.pop_front();

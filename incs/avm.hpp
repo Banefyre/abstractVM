@@ -1,7 +1,8 @@
 #ifndef AVM
 # define AVM
 
-# define FAILEXCEPT(STR, NB)	throw FailException(STR, NB, __FILE__, __LINE__);
+# define VMEXCEPT(STR, NB)	throw VmException(STR, NB, __FILE__, __LINE__);
+# define PARSEEXCEPT(STR, NB)	throw ParserException(STR, NB, __FILE__, __LINE__);
 
 class BasicException: public std::exception {};
 
@@ -17,21 +18,37 @@ public:
     virtual const char * what (void) const throw ();
 };
 
-class FailException: public std::exception {
+class VmException: public std::exception {
 
     public:
-        FailException (const std::string &arg, int nb, const char * file, int line);
+        VmException (const std::string &arg, int nb, const char * file, int line);
 
         virtual const char * what (void) const throw ();
 
-        FailException (FailException const & ref);
-        ~FailException (void);
+        VmException (VmException const & ref);
+        ~VmException (void);
 
     private:
         std::string		_msg;
 
-        FailException (void);
-        FailException & operator= (FailException const & ref);
+        VmException (void);
+        VmException & operator= (VmException const & ref);
+};
+
+class ParserException: public std::exception {
+public:
+    ParserException (const std::string &arg, int nb, const char * file, int line);
+
+    virtual const char * what (void) const throw ();
+
+    ParserException (ParserException const & ref);
+    ~ParserException (void);
+
+private:
+    std::string		_msg;
+
+    ParserException & operator= (ParserException const & ref);
+    ParserException (void);
 };
 
 #endif
