@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <Vm.hpp>
 
 class Manager {
 
@@ -15,15 +16,8 @@ class Manager {
 
     private:
 
-
-        typedef void(Vm::*basics)(void);
-        typedef void(Vm::*params)(std::string, std::string);
-
         std::string				                 _filename;
 
-        std::map<std::string, basics>		    _basicsMap;
-        std::map<std::string, params>		    _paramsMap;
-        std::map<std::string, eOperandType>	    _typeMap;
 
         void                        _parseThisLine (std::string & line, int i);
 

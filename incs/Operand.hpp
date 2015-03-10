@@ -100,7 +100,7 @@ class Operand: public IOperand {
 
             this->_getParams(st, nd, type, rhs);
             if (nd == 0)
-                FAILEXCEPT("Error : modulus by 0", Vm::getInstance().getLine())
+                VMEXCEPT("Error : modulus by 0", Vm::getInstance().getLine())
             if (type <= INT32)
                 res << (int)(fmod(st,nd));
             else

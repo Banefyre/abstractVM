@@ -95,8 +95,8 @@ int main(int ac, char **av) {
         Manager     m(filename);
         m.execute();
     }
-    catch (ArgException & e) {
-        std::cout << "Usage: " << e.what() << std::endl;
+    catch (std::exception & e) {
+        std::cout << e.what() << std::endl;
     }
     return 0;
 }

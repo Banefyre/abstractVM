@@ -1,5 +1,7 @@
 #include <Vm.hpp>
 #include <Operand.hpp>
+#include <Manager.hpp>
+#include "Instruction.hpp"
 
 Vm::Vm (void)
 {
@@ -8,6 +10,26 @@ Vm::Vm (void)
     this->eType["int32"] = INT32;
     this->eType["float"] = FLOAT;
     this->eType["double"] = DOUBLE;
+
+
+    this->_basicsMap["add"] = &Vm::add;
+    this->_basicsMap["sub"] = &Vm::sub;
+    this->_basicsMap["mul"] = &Vm::mul;
+    this->_basicsMap["div"] = &Vm::div;
+    this->_basicsMap["mod"] = &Vm::mod;
+    this->_basicsMap["print"] = &Vm::print;
+    this->_basicsMap["exit"] = &Vm::exit;
+    this->_basicsMap["dump"] = &Vm::dump;
+    this->_basicsMap["pop"] = &Vm::pop;
+
+    this->_paramsMap["push"] = &Vm::push;
+    this->_paramsMap["assert"] = &Vm::assert;
+
+    this->_typeMap["int8"] = INT8;
+    this->_typeMap["int16"] = INT16;
+    this->_typeMap["int32"] = INT32;
+    this->_typeMap["float"] = FLOAT;
+    this->_typeMap["double"] = DOUBLE;
 }
 
 Vm::~Vm (void)
@@ -30,6 +52,34 @@ Vm& Vm::getInstance(void)
 int Vm::getLine (void) const
 {
     return this->_line;
+}
+
+void Vm::addInstruction(Instruction *instr) {
+    this->_instructions.push_back(instr);
+}
+
+void Vm::run (void) {
+
+    bool exit = false;
+
+    //loop _instruction -> getType -> SIMPLE ->
+    std::list<Instruction *>::const_iterator it = this->_instructions.begin();
+    while (it != this->_instructions.end())
+    {
+        if ((*it)->getInstruction() == "exit")
+            exit = true;
+
+        if ((*it)->geteType() == e_type::SIMPLE) {
+            (this->*(this->_basicsMap[(*it)->getInstruction()]))();
+        }
+        else {
+            (this->*(this->_paramsMap[(*it)->getInstruction()]))((*it)->getType(), (*it)->getValue());
+        }
+        ++it;
+    }
+
+    if (!exit)
+        VMEXCEPT("Error : Left without using exit", this->_line);;
 }
 
 void Vm::pop (void)
@@ -155,7 +205,6 @@ void Vm::exit (void)
 {
     throw ExitException();
 }
-
 
 
 IOperand const *	Vm::createOperand (eOperandType type, std::string const & value) const

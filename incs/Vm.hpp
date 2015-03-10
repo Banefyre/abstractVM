@@ -7,6 +7,7 @@
 #include <list>
 #include <avm.hpp>
 #include <IOperand.hpp>
+#include <Instruction.hpp>
 
 class Vm
 {
@@ -34,7 +35,23 @@ class Vm
         int  getLine			(void) const;
         std::map<std::string, eOperandType > eType;
 
+        void    addInstruction(Instruction * instr);
+
+        void    run(void);
+
     private:
+
+
+        typedef void(Vm::*basics)(void);
+        typedef void(Vm::*params)(std::string, std::string);
+
+
+        std::map<std::string, basics>		    _basicsMap;
+        std::map<std::string, params>		    _paramsMap;
+        std::map<std::string, eOperandType>	    _typeMap;
+
+        std::list<Instruction *> _instructions;
+
 
         typedef IOperand const * (Vm::*makeOperand)( std::string const & value) const;
 
