@@ -88,7 +88,7 @@ int main(int ac, char **av) {
 
     try {
         argtest(ac);
-        if (ac > 2)
+        if (ac > 1)
           filename.assign(av[1]);
         else
            filename.assign("");

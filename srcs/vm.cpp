@@ -34,11 +34,7 @@ Vm::Vm (void)
 
 Vm::~Vm (void)
 {
-    std::list<IOperand const*>::iterator it;
 
-    for (it = this->_stack.begin(); it != this->_stack.end(); it++) {
-        delete *it;
-    }
 }
 
 Vm& Vm::getInstance(void)
@@ -203,7 +199,7 @@ void Vm::print (void)
 
 void Vm::exit (void)
 {
-    throw ExitException();
+    std::cout << "Goodbye." << std::endl;
 }
 
 

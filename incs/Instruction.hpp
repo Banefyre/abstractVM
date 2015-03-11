@@ -15,6 +15,7 @@ class Instruction{
 
         Instruction(std::string instruction, std::string type, std::string value);
         Instruction(std::string instruction);
+        ~Instruction();
 
         e_type       geteType(void) const;
         std::string  getInstruction(void) const;

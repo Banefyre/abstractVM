@@ -9,6 +9,10 @@ Instruction::Instruction (std::string instruction) : _instruction(instruction), 
 
 }
 
+Instruction::~Instruction() {
+    return;
+}
+
 e_type       Instruction::geteType(void) const {return this->_instrType;}
 std::string  Instruction::getInstruction(void) const {return this->_instruction;}
 std::string  Instruction::getType(void) const {return this->_type;}

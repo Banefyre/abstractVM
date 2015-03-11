@@ -36,6 +36,12 @@ void Manager::execute(void)
         }
         ++i;
     }
+
+    if(!this->_filename.empty())
+    {
+        file.close();
+    }
+
     if (execute)
         Vm::getInstance().run();
 }
