@@ -62,6 +62,7 @@ void Vm::run (void) {
     std::list<Instruction *>::const_iterator it = this->_instructions.begin();
     while (it != this->_instructions.end())
     {
+
         if ((*it)->getInstruction() == "exit")
             exit = true;
 
@@ -83,7 +84,6 @@ void Vm::pop (void)
     if (this->_stack.size() < 1)
         VMEXCEPT("Error : The stack is empty", this->_line);
 
-    delete *(this->_stack.begin());
     this->_stack.pop_front();
 }
 

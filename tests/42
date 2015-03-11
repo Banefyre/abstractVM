@@ -1,0 +1,48 @@
+push int8(69)
+push int8(68)
+push int8(79)
+push int8(67)
+push int8(32)
+push int8(79)
+push int8(84)
+push int8(32)
+push int8(78)
+push int8(82)
+push int8(79)
+push int8(66)
+push int8(32)
+push int8(50)
+push int8(52)
+
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+print
+pop
+
+exit
